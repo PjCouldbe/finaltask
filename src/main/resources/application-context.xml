@@ -9,17 +9,11 @@
 
     <context:annotation-config/>
     
-    <context:component-scan base-package="db"/>
-    <context:property-placeholder location="file:./db-env.properties"/>
-
-	<bean name="userRepository" class="db.repository.UserRepository" init-method="create"/>
-	<bean name="orderRepository" class="db.repository.OrderRepository" init-method="create"/>
-	
-	<bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" id = "datasource">
+    <bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" id = "datasource">
 		<property name="driverClassName" value="org.apache.derby.jdbc.EmbeddedDriver" />
 		<property name="url" value="${db.url}" />
 	</bean>
-	
-	<!-- <bean name="User" class="db.model.User"/>
-	<bean name="Order" class="db.model.Order"/> -->
+    
+    <context:component-scan base-package="/db"/>
+    <context:property-placeholder location="file:./db-env.properties"/>
 </beans>

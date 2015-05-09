@@ -1,18 +1,20 @@
 package db.model;
 
 public class Order {
-	int orderId;
-	int customerId;
-	int salesPersonId;
-	int totalAmount;
+	private int orderId;
+	private int customerId;
+	private int salesPersonId;
+	private String goods;
+	private int totalAmount;
 	
 	public Order() {
 	
 	}
 	
-	public Order(int customerId, int salesPersonId, int totalAmount) {
+	public Order(int customerId, int salesPersonId, String goods, int totalAmount) {
 		this.customerId = customerId;
 		this.salesPersonId = salesPersonId;
+		this.goods = goods;
 		this.totalAmount = totalAmount;
 	}
 	
@@ -38,6 +40,14 @@ public class Order {
 	
 	public void setSalesPersonId(int salesPersonId) {
 		this.salesPersonId = salesPersonId;
+	}
+	
+	public String getGoods() {
+		return goods;
+	}
+	
+	public void setGoods(String goods) {
+		this.goods = goods;
 	}
 	
 	public int getTotalAmount() {

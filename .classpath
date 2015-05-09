@@ -51,5 +51,10 @@
 	<classpathentry kind="lib" path="C:/Program Files/Java/DownloadedLibs/slf4j-1.7.10/slf4j-simple-1.7.10-sources.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Java/DownloadedLibs/slf4j-1.7.10/slf4j-api-1.7.10.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Java/DownloadedLibs/slf4j-1.7.10/slf4j-api-1.7.10-sources.jar"/>
+	<classpathentry kind="lib" path="/spring-mvc/.idea/libraries/Maven__org_springframework_spring_orm_4_1_2_RELEASE.xml"/>
+	<classpathentry kind="lib" path="/spring-mvc/.idea/libraries/Maven__org_springframework_spring_tx_4_1_2_RELEASE.xml"/>
+	<classpathentry kind="lib" path="/spring-mvc/.idea/libraries/Maven__org_springframework_spring_web_4_1_2_RELEASE.xml"/>
+	<classpathentry kind="lib" path="/spring-mvc/.idea/libraries/Maven__org_springframework_spring_webmvc_4_1_2_RELEASE.xml"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/DownloadedLibs/spring libs/spring-web-4.1.2.RELEASE.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
