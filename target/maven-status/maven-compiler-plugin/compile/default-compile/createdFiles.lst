@@ -2,12 +2,12 @@ db\model\User.class
 db\web\DBUserController.class
 db\validator\OrderValidator.class
 db\repository\impl\UserRepositoryImpl.class
-jdbc_derby\MainApp.class
 db\validator\UserValidator.class
+db\repository\impl\UserRepositoryImpl$2.class
 db\repository\OrderRepository.class
-db\web\ControllerPool.class
 db\config\DBConfiguration.class
 db\repository\impl\OrderRepositoryImpl$1.class
+db\model\OrderView.class
 db\repository\impl\UserRepositoryImpl$1.class
 db\repository\impl\OrderRepositoryImpl.class
 db\web\DBOrderController.class

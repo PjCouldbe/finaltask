@@ -17,5 +17,5 @@ public interface OrderRepository {
 	
 	int getCount();
 	
-	Integer[] getPeople(String specialization);
+	//Integer[] getPeople(String specialization);
 }

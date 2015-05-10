@@ -10,10 +10,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -21,6 +23,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import db.config.DBConfiguration;
 import db.model.Order;
@@ -31,6 +34,7 @@ public class OrderRepositoryImpl implements OrderRepository {
 	private NamedParameterJdbcTemplate jdbcTemplate;
 	
 	@Resource
+	@Bean
 	public void setDataSource(DataSource dataSource) {
 		this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 	}
@@ -50,6 +54,7 @@ public class OrderRepositoryImpl implements OrderRepository {
 		
 	}
 	
+	@PostConstruct
     public void create() {
     	try (Connection conn = DriverManager.getConnection(config.getDbUrl())){	
     		Statement stmt = conn.createStatement();
@@ -62,6 +67,9 @@ public class OrderRepositoryImpl implements OrderRepository {
 					+ "PRIMARY KEY(orderId))";
     		stmt.execute(creator);
     		
+    		addOrder(new Order(1, 2, "слоник_игрушечный_2_шт", 1200));
+    		addOrder(new Order(4, 2, "кукла_пластмассовая_1_шт", 230));
+    		addOrder(new Order(5, 3, "тортик бисквитный_1_шт", 340));
     	} catch (SQLException ex) {
     		if (!ex.getSQLState().equals("X0Y32")) {
 				ex.printStackTrace();
@@ -160,14 +168,4 @@ public class OrderRepositoryImpl implements OrderRepository {
 		String sql = "SELECT COUNT(*) FROM ORDERS";
 		return this.jdbcTemplate.queryForInt(sql, new HashMap<String, Object>());
 	}
-    
-    public Integer[] getPeople(String specialization) {
-    	if (!(specialization.equals("customer") || specialization.equals("saler"))) {
-    		return null;
-    	}
-    	specialization = specialization.equals("customer") ? "customerId" : "salesPersonId";
-    	String sql = "SELECT DISTINCT " + specialization + " from ORDERS";
-    	List<Integer> l = jdbcTemplate.queryForList(sql, new HashMap<String, Object>(), Integer.class);
-    	return l.toArray(new Integer[l.size()]);
-    }
 }

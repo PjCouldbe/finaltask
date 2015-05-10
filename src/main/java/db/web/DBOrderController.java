@@ -57,7 +57,7 @@ public class DBOrderController {
     }
 	
 	@RequestMapping(value = "/order_db/view.html", method = RequestMethod.GET)
-	public String initializeOrderList(ModelMap model) {    //поменять
+	public String initializeOrderList(ModelMap model) {   
 		//model.addAttribute("orderList", orderRep.showAllOrders());
 		List<OrderView> orderList = new LinkedList<>();
 		for (Order o : orderRep.showAllOrders()) {
@@ -75,23 +75,8 @@ public class DBOrderController {
 	
 	@RequestMapping(value = "/order_db/edit.html", method = RequestMethod.GET)
 	public String initializeForm (ModelMap model) {
-    	Integer[] customerIds = orderRep.getPeople("customer");
-    	Integer[] salerIds = orderRep.getPeople("saler");
-		List<User> customerList = userRep.showAllUsers();
-		List<User> salerList = new LinkedList<>();
-		int i = 0; 
-		int j = 0;
-		for (User u : customerList) {
-			if (u.getId() == salerIds[j]) {
-				j++;
-				salerList.add(u);
-			}
-			if (u.getId() == customerIds[i]) {
-				i++;
-			} else {
-				customerList.remove(u);
-			}
-		}
+		List<User> customerList = userRep.selectGroupUsers("customer");
+		List<User> salerList = userRep.selectGroupUsers("saler");
 		
 		model.addAttribute("customerList", customerList);
 		model.addAttribute("salerList", salerList);

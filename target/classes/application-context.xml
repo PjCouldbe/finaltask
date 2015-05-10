@@ -9,11 +9,6 @@
 
     <context:annotation-config/>
     
-    <bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" id = "datasource">
-		<property name="driverClassName" value="org.apache.derby.jdbc.EmbeddedDriver" />
-		<property name="url" value="${db.url}" />
-	</bean>
-    
     <context:component-scan base-package="/db"/>
     <context:property-placeholder location="file:./db-env.properties"/>
 </beans>

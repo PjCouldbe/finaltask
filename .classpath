@@ -37,24 +37,16 @@
 	<classpathentry kind="lib" path="C:/Program Files/Java/DownloadedLibs/MS_SQL_JDBC/sqljdbc_4.0/enu/sqljdbc4.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Java/DownloadedLibs/spring libs/commons-logging-1.2.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Java/DownloadedLibs/spring libs/derby.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/DownloadedLibs/spring libs/log4j-1.2.17.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Java/DownloadedLibs/spring libs/spring-aop-4.1.2.RELEASE.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Java/DownloadedLibs/spring libs/spring-beans-4.1.2.RELEASE.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Java/DownloadedLibs/spring libs/spring-context-4.1.2.RELEASE.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Java/DownloadedLibs/spring libs/spring-core-4.1.2.RELEASE.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Java/DownloadedLibs/spring libs/spring-expression-4.1.2.RELEASE.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/DownloadedLibs/slf4j-1.7.10/jcl-over-slf4j-1.7.10.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/DownloadedLibs/slf4j-1.7.10/jcl-over-slf4j-1.7.10-sources.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/DownloadedLibs/slf4j-1.7.10/log4j-over-slf4j-1.7.10.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/DownloadedLibs/slf4j-1.7.10/log4j-over-slf4j-1.7.10-sources.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/DownloadedLibs/slf4j-1.7.10/slf4j-simple-1.7.10.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/DownloadedLibs/slf4j-1.7.10/slf4j-simple-1.7.10-sources.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/DownloadedLibs/slf4j-1.7.10/slf4j-api-1.7.10.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/DownloadedLibs/slf4j-1.7.10/slf4j-api-1.7.10-sources.jar"/>
 	<classpathentry kind="lib" path="/spring-mvc/.idea/libraries/Maven__org_springframework_spring_orm_4_1_2_RELEASE.xml"/>
 	<classpathentry kind="lib" path="/spring-mvc/.idea/libraries/Maven__org_springframework_spring_tx_4_1_2_RELEASE.xml"/>
 	<classpathentry kind="lib" path="/spring-mvc/.idea/libraries/Maven__org_springframework_spring_web_4_1_2_RELEASE.xml"/>
 	<classpathentry kind="lib" path="/spring-mvc/.idea/libraries/Maven__org_springframework_spring_webmvc_4_1_2_RELEASE.xml"/>
 	<classpathentry kind="lib" path="C:/Program Files/Java/DownloadedLibs/spring libs/spring-web-4.1.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/DownloadedLibs/slf4j-1.7.10/slf4j-log4j12-1.7.10.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

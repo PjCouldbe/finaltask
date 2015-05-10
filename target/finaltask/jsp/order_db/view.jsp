@@ -3,25 +3,26 @@
 <html>
 	<head>
 		<title>Order Database</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	</head>
 	
 	<body>
 		<h1 ALIGN="center">Список заказов</h1><br />
 		<div align="right">
-			<a href="http://localhost:8080/finaltask/user_db/view.html">Список пользователей</a>
+			<a href="/user_db/view.html">Список пользователей</a>
 		</div>
 		
-		<ol><%for(db.model.Order order : ${orderList}) {%>
+		<ol><%for(db.model.OrderView order : ${orderList}) {%>
 			<li><p>
-				<%= order.getFirstname()%> <%= order.getLastname()%> <%= order.getMiddlename()%>, 
-				<%= order.getAge()%>
+				<%= order.getCustomerData()%> <%= order.getSalerData()%> <%= order.getGoods()%>, 
+				<%= order.getTotalAmount()%>
 			</p></li>			
 		<%}%></ol>
 		
 		<br />
 		
 		<div align="right">
-			<a href="http://localhost:8080/finaltask/order_db/edit.html">Создать заказ</a>
+			<a href="/order_db/edit.html">Создать заказ</a>
 		</div>
 	</body>
 </html>

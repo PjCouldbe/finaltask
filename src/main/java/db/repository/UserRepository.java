@@ -13,6 +13,8 @@ public interface UserRepository {
 	
 	User selectUser(int id);
 	
+	List<User> selectGroupUsers(String specialization);
+	
 	List<User> showAllUsers();
 	
 	int getCount();

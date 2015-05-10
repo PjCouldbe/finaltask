@@ -10,9 +10,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -29,6 +32,8 @@ import db.repository.UserRepository;
 public class UserRepositoryImpl implements UserRepository {
 	private NamedParameterJdbcTemplate jdbcTemplate;
 		
+	@Resource
+	@Bean
 	public void setDataSource(DataSource dataSource) {
 		this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 	}
@@ -48,6 +53,7 @@ public class UserRepositoryImpl implements UserRepository {
 		
 	}
 
+	@PostConstruct
 	public void create() {
 		try (Connection conn = DriverManager.getConnection(config.getDbUrl())){	
     		Statement stmt = conn.createStatement();
@@ -128,6 +134,32 @@ public class UserRepositoryImpl implements UserRepository {
 		return user;
 	}
 
+	@Override
+	public List<User> selectGroupUsers(String specialization) {
+		if (!(specialization.equals("customer") || specialization.equals("saler"))) {
+    		return null;
+    	}
+    	specialization = specialization.equals("customer") ? "customerId" : "salesPersonId";
+		String sql = "SELECT * FROM USERS WHERE id IN (SELECT DISTINCT " 
+				+ specialization + " from ORDERS)";
+		List<User> users = this.jdbcTemplate.query(
+				sql, 
+				new HashMap<String, Object>(),
+				new RowMapper<User>() {
+					@Override
+					public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+						User user = new User();
+						user.setId(rs.getInt("id"));
+						user.setLastname(rs.getString("lastname"));
+						user.setFirstname(rs.getString("firstname"));
+						user.setMiddlename(rs.getString("middlename"));
+						user.setAge(rs.getInt("age"));
+						return user;
+					}
+				});
+		return users;
+	}
+	
 	@Override
 	public List<User> showAllUsers() {
 		//StringBuilder s = new StringBuilder();
