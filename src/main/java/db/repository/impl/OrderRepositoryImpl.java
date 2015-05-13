@@ -1,21 +1,8 @@
 package db.repository.impl;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.sql.DataSource;
-
+import db.model.Order;
+import db.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -23,60 +10,28 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import db.config.DBConfiguration;
-import db.model.Order;
-import db.repository.OrderRepository;
+import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Repository
 public class OrderRepositoryImpl implements OrderRepository {
 	private NamedParameterJdbcTemplate jdbcTemplate;
-	
-	@Resource
-	@Bean
-	public void setDataSource(DataSource dataSource) {
+
+    @Autowired(required = true)
+    public void setDataSource(DataSource dataSource) {
 		this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 	}
-	
-	@Autowired(required=true)
-    private DBConfiguration config;
-
-    public DBConfiguration getConfig() {
-        return config;
-    }
-
-    public void setConfig(DBConfiguration config) {
-        this.config = config;
-    }
 	
 	public OrderRepositoryImpl() {
 		
 	}
-	
-	@PostConstruct
-    public void create() {
-    	try (Connection conn = DriverManager.getConnection(config.getDbUrl())){	
-    		Statement stmt = conn.createStatement();
-    		String creator = "CREATE TABLE ORDERS ("
-					+ "orderId INTEGER not NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),"
-					+ "customerId INTEGER not NULL,"
-					+ "salesPersonId INTEGER not NULL," 
-					+ "goods VARCHAR(256),"
-					+ "totalAmount INTEGER not NULL,"
-					+ "PRIMARY KEY(orderId))";
-    		stmt.execute(creator);
-    		
-    		addOrder(new Order(1, 2, "слоник_игрушечный_2_шт", 1200));
-    		addOrder(new Order(4, 2, "кукла_пластмассовая_1_шт", 230));
-    		addOrder(new Order(5, 3, "тортик бисквитный_1_шт", 340));
-    	} catch (SQLException ex) {
-    		if (!ex.getSQLState().equals("X0Y32")) {
-				ex.printStackTrace();
-			}
-		}
-	}
-    
+
     @Override
 	public void addOrder(final Order order) {
 		String sql = "INSERT INTO ORDERS (customerId, salesPersonId, totalAmount) "
