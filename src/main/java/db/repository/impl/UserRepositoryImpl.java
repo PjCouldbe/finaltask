@@ -1,21 +1,8 @@
 package db.repository.impl;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.sql.DataSource;
-
+import db.model.User;
+import db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -24,38 +11,28 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import db.config.DBConfiguration;
-import db.model.User;
-import db.repository.UserRepository;
+import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.*;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
 	private NamedParameterJdbcTemplate jdbcTemplate;
-		
-	@Resource
-	@Bean
-	public void setDataSource(DataSource dataSource) {
-		this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-	}
-	
-	@Autowired(required=true)
-    private DBConfiguration config;
 
-    public DBConfiguration getConfig() {
-        return config;
+    @Autowired(required = true)
+    public void setDataSource(DataSource dataSource) {
+        System.out.println("DATASOURCE: " + dataSource);
+        this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    public void setConfig(DBConfiguration config) {
-        this.config = config;
-    }
-	
-	public UserRepositoryImpl() {
-		
+    public UserRepositoryImpl() {
 	}
 
-	@PostConstruct
+	/*@PostConstruct
 	public void create() {
-		try (Connection conn = DriverManager.getConnection(config.getDbUrl())){	
+        System.out.println("===create===");
+		try (Connection conn = DriverManager.getConnection(config.getDbUrl())){
     		Statement stmt = conn.createStatement();
     		String creator = "CREATE TABLE USERS ("
 					+ "id INTEGER not NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),"
@@ -75,7 +52,7 @@ public class UserRepositoryImpl implements UserRepository {
 				ex.printStackTrace();
 			}
 		}
-	}
+	}*/
 
 	@Override
 	public void addUser(final User user) {
@@ -162,8 +139,10 @@ public class UserRepositoryImpl implements UserRepository {
 	
 	@Override
 	public List<User> showAllUsers() {
+        System.out.println(this.jdbcTemplate);
 		//StringBuilder s = new StringBuilder();
-		List<User> users = this.jdbcTemplate.query(
+        List<User> users = new ArrayList<>();
+		List<User> userList = this.jdbcTemplate.query(
 				"SELECT * FROM USERS", 
 				new HashMap<String, Object>(),
 				new RowMapper<User>() {
@@ -178,7 +157,11 @@ public class UserRepositoryImpl implements UserRepository {
 						return user;
 					}
 				});
-		
+
+        for (User user : userList) {
+            users.add(user);
+        }
+
 		/*for (User u : users) {
 			s.append(u.getId() 
 					+ ", " + u.getLastname()
@@ -187,6 +170,7 @@ public class UserRepositoryImpl implements UserRepository {
 					+ ", " + u.getAge());
 			s.append("\n");
 		}*/
+
 		return users;
 	}
 

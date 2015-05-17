@@ -14,13 +14,15 @@
 			<div>    </div>
 			<a href="/order_create.html">Создать заказ</a>
 		</div>
-		
-		<ol><%for(db.model.User user : ${userList}) {%>
-			<li><p>
-				<%= user.getData()%>, <%= user.getAge()%>
-			</p></li>			
-		<%}%></ol>
-		
+
+		<ol>
+            <c:forEach items="${userList}" var="user">
+                <li><p>
+                    ${user.getData()}, ${user.getAge()}
+                </p></li>
+            </c:forEach>
+		</ol>
+
 		<br />
 		
 		<div align="right">

@@ -8,7 +8,9 @@
         http://www.springframework.org/schema/context/spring-context.xsd">
 
     <context:annotation-config/>
-    
+
+    <bean name="initializer" init-method="init" class="db.config.AppConfig" lazy-init="false"/>
+
     <context:component-scan base-package="/db"/>
-    <context:property-placeholder location="file:./db-env.properties"/>
+
 </beans>
