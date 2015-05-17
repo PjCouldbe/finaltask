@@ -9,7 +9,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 @Configuration
 public class DBConfiguration {
-	 @Value("${db.url}")
+	 @Value("jdbc:derby:./ITIS;create=true")
 	 private String dbUrl;
 	 
 	 public String getDbUrl() {
@@ -20,7 +20,7 @@ public class DBConfiguration {
 	 public static DataSource dataSource() {
 		final DriverManagerDataSource ds = new DriverManagerDataSource();
 	    ds.setDriverClassName("org.apache.derby.jdbc.EmbeddedDriver");
-	    ds.setUrl("${db.url}");
+	    ds.setUrl("jdbc:derby:./ITIS;create=true");
 	    return ds;
 	 }
 }
