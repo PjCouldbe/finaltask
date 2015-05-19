@@ -1,7 +1,17 @@
 package db.repository.impl;
 
-import db.model.User;
-import db.repository.UserRepository;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.sql.DataSource;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -11,15 +21,15 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.*;
+import db.model.User;
+import db.repository.UserRepository;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
+	private static final Logger logger = LoggerFactory.getLogger(UserRepositoryImpl.class);
+	
 	private NamedParameterJdbcTemplate jdbcTemplate;
-
+	
     @Autowired(required = true)
     public void setDataSource(DataSource dataSource) {
         System.out.println("DATASOURCE: " + dataSource);
@@ -88,6 +98,7 @@ public class UserRepositoryImpl implements UserRepository {
 			String sql = "DELETE FROM USERS WHERE id = :id";
 			Map<String, Integer> namedParameters = Collections.singletonMap("id", id);
 			jdbcTemplate.update(sql, namedParameters);
+			logger.info("user deleted");
 			return true;
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -100,7 +111,21 @@ public class UserRepositoryImpl implements UserRepository {
 		//StringBuilder s = new StringBuilder();
 		Map<String, Integer> namedParameters = Collections.singletonMap("id", id);
 		String sql = "SELECT * FROM USERS WHERE id = :id";
-		User user = this.jdbcTemplate.queryForObject(sql, namedParameters, User.class);
+		User user = this.jdbcTemplate.queryForObject(
+				sql, 
+				namedParameters, 
+				new RowMapper<User>() {
+					@Override
+					public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+						User user = new User();
+						user.setId(rs.getInt("id"));
+						user.setLastname(rs.getString("lastname"));
+						user.setFirstname(rs.getString("firstname"));
+						user.setMiddlename(rs.getString("middlename"));
+						user.setAge(rs.getInt("age"));
+						return user;
+					}
+				});
 		
 		/*s.append(user.getId() 
 				+ ", " + user.getLastname()
@@ -116,8 +141,8 @@ public class UserRepositoryImpl implements UserRepository {
 		if (!(specialization.equals("customer") || specialization.equals("saler"))) {
     		return null;
     	}
-    	specialization = specialization.equals("customer") ? "customerId" : "salesPersonId";
-		String sql = "SELECT * FROM USERS WHERE id IN (SELECT DISTINCT " 
+    	specialization = specialization.equals("customer") ? "salesPersonId" : "customerId";
+		String sql = "SELECT * FROM USERS WHERE id NOT IN (SELECT DISTINCT " 
 				+ specialization + " from ORDERS)";
 		List<User> users = this.jdbcTemplate.query(
 				sql, 

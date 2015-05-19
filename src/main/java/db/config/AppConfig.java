@@ -4,10 +4,15 @@ import db.model.Order;
 import db.model.User;
 import db.repository.OrderRepository;
 import db.repository.UserRepository;
+import db.web.DBUserController;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -18,7 +23,9 @@ import java.sql.Statement;
  */
 @Configuration
 public class AppConfig {
-
+	private static final Logger logger = LoggerFactory.getLogger(AppConfig.class);
+	
+	
     @Autowired
     private DBConfiguration config;
 
@@ -29,7 +36,7 @@ public class AppConfig {
     private OrderRepository orderRepository;
 
     public static void init() {
-        System.out.println("INIT");
+        logger.info("INIT");
     }
 
     @PostConstruct
@@ -69,7 +76,6 @@ public class AppConfig {
         }
 
         System.out.println("DONE");
-
     }
 
     protected void createOrders() {
@@ -96,8 +102,5 @@ public class AppConfig {
         }
 
         System.out.println("DONE");
-
     }
-
-
 }

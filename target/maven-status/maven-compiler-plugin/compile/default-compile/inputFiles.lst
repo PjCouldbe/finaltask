@@ -1,11 +1,12 @@
-D:\MyProgs\MyProjs\FinalTask\src\main\java\db\repository\OrderRepository.java
 D:\MyProgs\MyProjs\FinalTask\src\main\java\db\repository\UserRepository.java
-D:\MyProgs\MyProjs\FinalTask\src\main\java\db\web\DBOrderController.java
+D:\MyProgs\MyProjs\FinalTask\src\main\java\db\repository\OrderRepository.java
 D:\MyProgs\MyProjs\FinalTask\src\main\java\db\web\DBUserController.java
+D:\MyProgs\MyProjs\FinalTask\src\main\java\db\web\DBOrderController.java
 D:\MyProgs\MyProjs\FinalTask\src\main\java\db\model\User.java
 D:\MyProgs\MyProjs\FinalTask\src\main\java\db\validator\OrderValidator.java
 D:\MyProgs\MyProjs\FinalTask\src\main\java\db\repository\impl\OrderRepositoryImpl.java
 D:\MyProgs\MyProjs\FinalTask\src\main\java\db\model\OrderView.java
+D:\MyProgs\MyProjs\FinalTask\src\main\java\db\config\AppConfig.java
 D:\MyProgs\MyProjs\FinalTask\src\main\java\db\repository\impl\UserRepositoryImpl.java
 D:\MyProgs\MyProjs\FinalTask\src\main\java\db\validator\UserValidator.java
 D:\MyProgs\MyProjs\FinalTask\src\main\java\db\model\Order.java

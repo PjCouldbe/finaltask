@@ -1,7 +1,14 @@
 package db.repository.impl;
 
-import db.model.Order;
-import db.repository.OrderRepository;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -11,19 +18,15 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import db.model.Order;
+import db.model.User;
+import db.repository.OrderRepository;
 
 @Repository
 public class OrderRepositoryImpl implements OrderRepository {
 	private NamedParameterJdbcTemplate jdbcTemplate;
-
-    @Autowired(required = true)
+	
+	@Autowired(required = true)
     public void setDataSource(DataSource dataSource) {
 		this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 	}
@@ -74,19 +77,31 @@ public class OrderRepositoryImpl implements OrderRepository {
 	}
 	
     @Override
-	public String selectOrder(int id) {	
-		StringBuilder s = new StringBuilder();
+	public Order selectOrder(int id) {	
 		Map<String, Integer> namedParameters = Collections.singletonMap("orderId", id);
 		String sql = "SELECT * FROM USERS WHERE id = :orderId";
-		Order order = this.jdbcTemplate.queryForObject(sql, namedParameters, Order.class);
+		Order order = this.jdbcTemplate.queryForObject(sql, 
+							namedParameters, 
+							new RowMapper<Order>() {
+								@Override
+								public Order mapRow(ResultSet rs, int rowNum) throws SQLException {
+									Order order = new Order();
+									order.setOrderId(rs.getInt("id"));
+									order.setCustomerId(rs.getInt("customerId"));
+									order.setSalesPersonId(rs.getInt("salesPersonId"));
+									order.setGoods(rs.getString("goods"));
+									order.setTotalAmount(rs.getInt("totalAmount"));
+									return order;
+								}
+							});
 		
-		s.append(order.getOrderId() 
+		/*s.append(order.getOrderId() 
 				+ ", " + order.getCustomerId()
 				+ ", " + order.getSalesPersonId()
 				+ ", " + order.getGoods()
 				+ ", " + order.getTotalAmount());
-		s.append("\n");
-		return s.toString();
+		s.append("\n");*/
+		return order;
 	}
 	
     @Override

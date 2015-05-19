@@ -11,7 +11,7 @@ public interface OrderRepository {
 	
 	boolean delete(int id);
 	
-	String selectOrder(int id);
+	Order selectOrder(int id);
 	
 	List<Order> showAllOrders();
 	

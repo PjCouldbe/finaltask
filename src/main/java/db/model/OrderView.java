@@ -58,4 +58,12 @@ public class OrderView {
 	public void setTotalAmount(int totalAmount) {
 		this.totalAmount = totalAmount;
 	}
+	
+	@Override
+	public String toString() {
+		return this.getCustomerData() + " -> " 
+				+ this.getSalerData() + ": "
+				+ this.getGoods() + " ("
+				+ this.getTotalAmount() + ")";
+	}
 }
