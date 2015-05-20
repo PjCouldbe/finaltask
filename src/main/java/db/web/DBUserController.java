@@ -94,25 +94,25 @@ public class DBUserController {
     }
 	
 	@RequestMapping(value = "/user_db/update", method = RequestMethod.GET)
-    public String initializeChangeForm(HttpServletRequest request, ModelMap model) {
+    public ModelAndView initializeChangeForm(HttpServletRequest request) throws SQLException {
 		Integer id = Integer.parseInt(request.getParameter("id"));
 		User u = userRep.selectUser(id);
-		model.addAttribute("user", u);
-        return "user_db/update";
-    }
+		ModelAndView model = new ModelAndView("user_db/edit");
+		model.addObject("user", u);
+        return model;
+	}
 	
 	@RequestMapping(value = "/user_db/update", method = RequestMethod.POST)
-	public String onUpdate(@ModelAttribute("user")User u, 
-			HttpServletRequest request, BindingResult result, ModelMap model) {
-		Integer id = Integer.parseInt(request.getParameter("id"));
-				validator.validate(u, result);
+	public String onChange(User user, BindingResult result, ModelMap model, HttpServletRequest request) {
+    	Integer id = Integer.parseInt(request.getParameter("id"));
+		validator.validate(user, result);
     	if (result.hasFieldErrors()) {
-    		return "user_db/update";
+    		return "user_db/edit";
     	}
-		userRep.update(u, u.getId());
+		userRep.update(user, id);
         logger.info("Adding a user: " 
-        		+ u.getData() + ": "
-        		+ u.getAge() + " years");
+        		+ user.getData() + ": "
+        		+ user.getAge() + " years");
 
         //redirectAttributes.addAttribute("flash", "Car was added: " + car.getBrand() + " for $" + 
         //car.getPrice() + "");

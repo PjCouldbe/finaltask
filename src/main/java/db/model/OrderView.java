@@ -61,9 +61,9 @@ public class OrderView {
 	
 	@Override
 	public String toString() {
-		return this.getCustomerData() + " -> " 
-				+ this.getSalerData() + ": "
-				+ this.getGoods() + " ("
-				+ this.getTotalAmount() + ")";
+		return this.customerData + " -> " 
+				+ this.salerData + ": "
+				+ this.goods + " ("
+				+ this.totalAmount + ")";
 	}
 }

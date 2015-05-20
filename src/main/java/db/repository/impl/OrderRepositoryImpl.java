@@ -79,14 +79,14 @@ public class OrderRepositoryImpl implements OrderRepository {
     @Override
 	public Order selectOrder(int id) {	
 		Map<String, Integer> namedParameters = Collections.singletonMap("orderId", id);
-		String sql = "SELECT * FROM USERS WHERE id = :orderId";
+		String sql = "SELECT * FROM ORDERS WHERE orderId = :orderId";
 		Order order = this.jdbcTemplate.queryForObject(sql, 
 							namedParameters, 
 							new RowMapper<Order>() {
 								@Override
 								public Order mapRow(ResultSet rs, int rowNum) throws SQLException {
 									Order order = new Order();
-									order.setOrderId(rs.getInt("id"));
+									order.setOrderId(rs.getInt("orderId"));
 									order.setCustomerId(rs.getInt("customerId"));
 									order.setSalesPersonId(rs.getInt("salesPersonId"));
 									order.setGoods(rs.getString("goods"));

@@ -1,5 +1,6 @@
 package db.web;
 
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import db.model.Order;
 import db.model.OrderView;
@@ -63,6 +65,7 @@ public class DBOrderController {
 		//model.addAttribute("orderList", orderRep.showAllOrders());
 		List<OrderView> orderList = new LinkedList<>();
 		for (Order o : orderRep.showAllOrders()) {
+			System.out.println(o.toString());
 			orderList.add(new OrderView(o.getOrderId(), 
 										userRep.selectUser(o.getCustomerId()).getData(), 
 										userRep.selectUser(o.getSalesPersonId()).getData(), 
@@ -114,22 +117,30 @@ public class DBOrderController {
     }
 	
 	@RequestMapping(value = "/order_db/update", method = RequestMethod.GET)
-    public String initializeChangeForm(HttpServletRequest request, ModelMap model) {
+    public ModelAndView initializeChangeForm(HttpServletRequest request) throws SQLException {
 		Integer id = Integer.parseInt(request.getParameter("id"));
 		Order o = orderRep.selectOrder(id);
-		model.addAttribute("order", o);
-        return "order_db/update";
-    }
+		logger.info(o.toString());
+		ModelAndView model = new ModelAndView("order_db/edit");
+		
+		List<User> customerList = userRep.selectGroupUsers("customer");
+		List<User> salerList = userRep.selectGroupUsers("saler");
+		
+		model.addObject("customerList", customerList);
+		model.addObject("salerList", salerList);
+		model.addObject("order", o);
+        return model;
+	}
 	
 	@RequestMapping(value = "/order_db/update", method = RequestMethod.POST)
-	public String onUpdate(@ModelAttribute("order")Order o, 
+	public String onUpdate(@ModelAttribute("order") Order o, 
 			HttpServletRequest request, BindingResult result, ModelMap model) {
 		Integer id = Integer.parseInt(request.getParameter("id"));
 		validator.validate(o, result);
     	if (result.hasFieldErrors()) {
-    		return "order_db/update";
+    		return "order_db/edit";
     	}
-		orderRep.update(o, o.getOrderId());
+		orderRep.update(o, id);
         logger.info("Adding an order: " + o.toString());
 
         //redirectAttributes.addAttribute("flash", "Car was added: " + car.getBrand() + " for $" + 

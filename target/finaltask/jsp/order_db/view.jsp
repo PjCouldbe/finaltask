@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html" pageEncoding="UTF-8"%>
 
 <html>
 	<head>
@@ -31,7 +31,7 @@
                 	<td>${order.getSalerData()}</td>
                 	<td>${order.getGoods()}</td>
                 	<td>${order.getTotalAmount()}</td>
-                	<td><a href="<c:url value="/order_db/update.html?id=${order.getId()}"/>">Изменить</a>  <a href="<c:url value="/order_db/delete.html?id=${order.getId()}"/>">Удалить</a></td>
+                	<td><a href="<c:url value="/order_db/update?id=${order.getId()}"/>">Изменить</a>  <a href="<c:url value="/order_db/delete?id=${order.getId()}"/>">Удалить</a></td>
                 </tr>
             </c:forEach>
 		</table>
